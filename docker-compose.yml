@@ -1,8 +1,17 @@
 version: '3.4'
 
 services:
-  albiberto.blazor:
+  albiberto:
     image: ${DOCKER_REGISTRY-}albibertoblazor
     build:
       context: .
       dockerfile: Albiberto.Blazor/Dockerfile
+      
+  loki:
+    image: grafana/loki:latest
+    
+  promtail:
+    image: grafana/promtail:latest
+    
+  grafana:
+    image: grafana/grafana:latest
