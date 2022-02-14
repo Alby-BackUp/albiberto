@@ -19,11 +19,10 @@
     <Content Include="infrastructure\docker-compose.yaml" />
     <Content Include="infrastructure\grafana\grafana.ini" />
     <Content Include="infrastructure\grafana\provisioning\datasources\loki.yml" />
-    <Content Include="infrastructure\loki-config.yaml" />
-    <Content Include="infrastructure\promtail-config.yaml" />
+    <Content Include="infrastructure\loki\loki-config.yaml" />
+    <Content Include="infrastructure\promtail\promtail-config.yaml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="infrastructure\loki" />
     <Folder Include="infrastructure\promtail\log" />
   </ItemGroup>
 </Project>
