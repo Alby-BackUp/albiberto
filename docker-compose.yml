@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  albiberto.blazor:
+    image: ${DOCKER_REGISTRY-}albibertoblazor
+    build:
+      context: .
+      dockerfile: Albiberto.Blazor/Dockerfile
