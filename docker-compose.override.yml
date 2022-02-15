@@ -21,14 +21,6 @@ services:
     networks:
       - loki
 
-  promtail:
-    volumes:
-      - ./infrastructure/promtail/log:/var/log
-      - ./infrastructure/promtail/promtail-config.yaml:/mnt/config/promtail-config.yaml
-    command: -config.file=/mnt/config/promtail-config.yaml
-    networks:
-      - loki
-
   grafana:
     ports:
       - "3000:3000"

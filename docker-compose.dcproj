@@ -20,9 +20,5 @@
     <Content Include="infrastructure\grafana\grafana.ini" />
     <Content Include="infrastructure\grafana\provisioning\datasources\loki.yml" />
     <Content Include="infrastructure\loki\loki-config.yaml" />
-    <Content Include="infrastructure\promtail\promtail-config.yaml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="infrastructure\promtail\log" />
   </ItemGroup>
 </Project>

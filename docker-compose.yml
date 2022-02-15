@@ -10,8 +10,5 @@ services:
   loki:
     image: grafana/loki:latest
     
-  promtail:
-    image: grafana/promtail:latest
-    
   grafana:
     image: grafana/grafana:latest
