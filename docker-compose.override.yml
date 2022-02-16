@@ -6,27 +6,32 @@ services:
       - ASPNETCORE_ENVIRONMENT=Docker
     ports:
       - "5000:80"
-    networks:
-      - loki
-      - monitoring
-      
+ 
+  postgres:
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - '5432:5432'
+        
+  postgres-exporter:
+    ports:
+      - 9187:9187
+    environment:
+      DATA_SOURCE_NAME: "postgresql://postgres:postgres@postgres:5432/postgres?sslmode=disable"
+
   loki:
     ports:
       - "3100:3100"
     volumes:
       - ./infrastructure/loki/loki-config.yaml:/mnt/config/loki-config.yaml
     command: -config.file=/mnt/config/loki-config.yaml
-    networks:
-      - loki
 
   grafana:
     ports:
       - "3000:3000"
     volumes:
       - ./infrastructure/grafana:/etc/grafana
-    networks:
-      - loki
-      - monitoring
         
   node-exporter:
     ports:
@@ -40,8 +45,6 @@ services:
       - '--path.rootfs=/rootfs'
       - '--path.sysfs=/host/sys'
       - '--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)'
-    networks:
-      - monitoring
 
   prometheus:
     ports:
@@ -55,5 +58,4 @@ services:
       - '--web.console.libraries=/etc/prometheus/console_libraries'
       - '--web.console.templates=/etc/prometheus/consoles'
       - '--web.enable-lifecycle'
-    networks:
-      - monitoring
+
