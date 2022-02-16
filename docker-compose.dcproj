@@ -18,6 +18,8 @@
   <ItemGroup>
     <Content Include="infrastructure\docker-compose.yaml" />
     <Content Include="infrastructure\grafana\grafana.ini" />
+    <Content Include="infrastructure\grafana\provisioning\dashboards\default.yaml" />
+    <Content Include="infrastructure\grafana\provisioning\dashboards\node-exporter-full_rev26.json" />
     <Content Include="infrastructure\grafana\provisioning\datasources\datasources.yml" />
     <Content Include="infrastructure\loki\loki-config.yaml" />
     <Content Include="infrastructure\prometheus\prometheus.yml" />
