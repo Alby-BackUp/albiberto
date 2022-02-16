@@ -1,8 +1,5 @@
 version: '3.4'
 
-networks:
-  loki:
-
 services:
   albiberto:
     environment:
@@ -11,6 +8,7 @@ services:
       - "5000:80"
     networks:
       - loki
+      - monitoring
       
   loki:
     ports:
@@ -28,3 +26,34 @@ services:
       - ./infrastructure/grafana:/etc/grafana
     networks:
       - loki
+      - monitoring
+        
+  node-exporter:
+    ports:
+      - "9100:9100"
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    command:
+      - '--path.procfs=/host/proc'
+      - '--path.rootfs=/rootfs'
+      - '--path.sysfs=/host/sys'
+      - '--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)'
+    networks:
+      - monitoring
+
+  prometheus:
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./infrastructure/prometheus/prometheus.yml:/mnt/config/prometheus.yml
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/mnt/config/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+      - '--web.enable-lifecycle'
+    networks:
+      - monitoring

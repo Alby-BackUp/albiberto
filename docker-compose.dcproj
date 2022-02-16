@@ -18,7 +18,8 @@
   <ItemGroup>
     <Content Include="infrastructure\docker-compose.yaml" />
     <Content Include="infrastructure\grafana\grafana.ini" />
-    <Content Include="infrastructure\grafana\provisioning\datasources\loki.yml" />
+    <Content Include="infrastructure\grafana\provisioning\datasources\datasources.yml" />
     <Content Include="infrastructure\loki\loki-config.yaml" />
+    <Content Include="infrastructure\prometheus\prometheus.yml" />
   </ItemGroup>
 </Project>

@@ -1,14 +1,38 @@
 version: '3.4'
 
+networks:
+  loki:
+  monitoring:
+    driver: bridge
+    
+volumes:
+  prometheus_data: {}
+    
 services:
   albiberto:
     image: ${DOCKER_REGISTRY-}albibertoblazor
     build:
       context: .
       dockerfile: Albiberto.Blazor/Dockerfile
+    container_name: albiberto
+    restart: unless-stopped
       
   loki:
     image: grafana/loki:latest
+    container_name: loki
+    restart: unless-stopped
     
   grafana:
     image: grafana/grafana:latest
+    container_name: grafana
+    restart: unless-stopped
+    
+  node-exporter:
+    image: prom/node-exporter:latest
+    container_name: node-exporter
+    restart: unless-stopped
+    
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    restart: unless-stopped
