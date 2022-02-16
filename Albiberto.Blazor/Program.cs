@@ -8,9 +8,7 @@ var logger = new LoggerConfiguration()
     .ReadFrom.Configuration(builder.Configuration)
     .CreateLogger();
 
-Enumerable.Range(0, 100).ToList().ForEach(i => 
-    logger.Information($"Hello, world {i}!")
-);
+builder.Host.UseSerilog(logger);
 
 builder.Services.Configure<ForwardedHeadersOptions>(options =>
 {
