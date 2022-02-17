@@ -1,5 +1,5 @@
 version: '3.4'
-
+    
 services:
   albiberto:
     environment:
@@ -9,16 +9,16 @@ services:
  
   postgres:
     environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
     ports:
       - '5432:5432'
-        
+
   postgres-exporter:
     ports:
       - "9187:9187"
     environment:
-      DATA_SOURCE_NAME: "postgresql://postgres:postgres@postgres:5432/postgres?sslmode=disable"
+      DATA_SOURCE_NAME: ${DATA_SOURCE_NAME}
 
   loki:
     ports:
@@ -32,7 +32,7 @@ services:
       - "3000:3000"
     volumes:
       - ./infrastructure/grafana:/etc/grafana
-        
+
   node-exporter:
     ports:
       - "9100:9100"
