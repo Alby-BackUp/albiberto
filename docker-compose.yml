@@ -10,21 +10,25 @@ networks:
 volumes:
   postgres_data:
     name: ${POSTGRES_VOLUME}
-      
-  postgres-exporter_data: {}
-  loki_data: {}
-  grafana_data: {}
-  node-exporter_data: {}
-  prometheus_data: {}
+  postgres-exporter_data: 
+    name: ${POSTGRES_EXPORTER_VOLUME}
+  loki_data: 
+    name: ${LOKI_VOLUME}
+  grafana_data: 
+    name: ${GRAFANA_VOLUME}
+  node-exporter_data:
+    name: ${NODE_EXPORTER_VOLUME}
+  prometheus_data: 
+    name: ${PROMETHEUS_VOLUME}
     
 services:
   
   albiberto:
-    image: ${DOCKER_REGISTRY-}albiberto
+    image: ${DOCKER_REGISTRY-}${ALBIBERTO_CONTAINER_NAME-albiberto}
     build:
       context: .
       dockerfile: Albiberto.Blazor/Dockerfile
-    container_name: albiberto
+    container_name: ${ALBIBERTO_CONTAINER_NAME-albiberto}
     restart: unless-stopped
     networks:
       - loki
@@ -42,37 +46,37 @@ services:
       - infra
 
   postgres-exporter:
-    image: prometheuscommunity/postgres-exporter:latest
-    container_name: postgres-exporter
+    image: prometheuscommunity/postgres-exporter:${POSTGRES_EXPORTER_TAG-latest}
+    container_name: ${POSTGRES_EXPORTER_CONTAINER_NAME-postgres-exporter}
     restart: unless-stopped
     networks:
       - monitoring
 
   loki:
-    image: grafana/loki:latest
-    container_name: loki
+    image: grafana/loki:${LOKI_TAG-latest}
+    container_name: ${LOKI_CONTAINER_NAME-loki}
     restart: unless-stopped
     networks:
       - loki
 
   grafana:
-    image: grafana/grafana:latest
-    container_name: grafana
+    image: grafana/grafana:${GRAFANA_TAG-latest}
+    container_name: ${GRAFANA_CONTAINER_NAME-grafana}
     restart: unless-stopped
     networks:
       - loki
       - monitoring
 
   node-exporter:
-    image: prom/node-exporter:latest
-    container_name: node-exporter
+    image: prom/node-exporter:${NODE_EXPORTER_TAG-latest}
+    container_name: ${NODE_EXPORTER_CONTAINER_NAME-node-exporter}
     restart: unless-stopped
     networks:
       - monitoring
 
   prometheus:
-    image: prom/prometheus:latest
-    container_name: prometheus
+    image: prom/prometheus:${PROMETHEUS_TAG-latest}
+    container_name: ${PROMETHEUS_CONTAINER_NAME-prometheus}
     restart: unless-stopped
     networks:
       - monitoring
