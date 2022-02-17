@@ -1,5 +1,6 @@
 using Albiberto.Blazor.Data;
 using Microsoft.AspNetCore.HttpOverrides;
+using Prometheus;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -36,8 +37,17 @@ if (!app.Environment.IsDevelopment() || app.Environment.IsEnvironment("Docker"))
 app.UseStaticFiles();
 
 app.UseRouting();
+app.UseHttpMetrics(options =>
+{
+    // This identifies the page when using Razor Pages.
+    options.AddRouteParameter("page");
+});
 
 app.MapBlazorHub();
 app.MapFallbackToPage("/_Host");
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapMetrics();
+}); 
 
 app.Run();

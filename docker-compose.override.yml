@@ -16,7 +16,7 @@ services:
         
   postgres-exporter:
     ports:
-      - 9187:9187
+      - "9187:9187"
     environment:
       DATA_SOURCE_NAME: "postgresql://postgres:postgres@postgres:5432/postgres?sslmode=disable"
 
