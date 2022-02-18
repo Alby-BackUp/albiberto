@@ -20,6 +20,8 @@ volumes:
     name: ${NODE_EXPORTER_VOLUME}
   prometheus_data: 
     name: ${PROMETHEUS_VOLUME}
+  alert-manager_data:
+    name: ${ALERT_MANAGER_VOLUME}
     
 services:
   
@@ -77,6 +79,13 @@ services:
   prometheus:
     image: prom/prometheus:${PROMETHEUS_TAG-latest}
     container_name: ${PROMETHEUS_CONTAINER_NAME-prometheus}
+    restart: unless-stopped
+    networks:
+      - monitoring
+
+  alert-manager:
+    image: prom/alertmanager:${ALERT_MANAGER_TAG-latest}
+    container_name: ${ALERT_MANAGER_CONTAINER_NAME-prometheus}
     restart: unless-stopped
     networks:
       - monitoring

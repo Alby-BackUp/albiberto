@@ -31,7 +31,8 @@ services:
     ports:
       - ${GRAFANA_PORT-3000}:${GRAFANA_PORT-3000}
     volumes:
-      - ./infrastructure/grafana:/etc/grafana
+      - grafana_data:/var/lib/grafana         # Storage Grafana's data
+      - ./infrastructure/grafana:/etc/grafana # Initialize Grafana (gragana.ini), datasources, dashboards
 
   node-exporter:
     ports:
@@ -50,12 +51,20 @@ services:
     ports:
       - ${PROMETHEUS_PORT-9090}:${PROMETHEUS_PORT-9090}
     volumes:
-      - ./infrastructure/prometheus/prometheus.yml:/mnt/config/prometheus.yml
-      - prometheus_data:/prometheus
+      - ./infrastructure/prometheus/:/mnt/config/   # Initialize Prometheus (prometheus.yml)
+      - prometheus_data:/prometheus                 # Storage Prometheus's data     
     command:
       - '--config.file=/mnt/config/prometheus.yml'
       - '--storage.tsdb.path=/prometheus'
       - '--web.console.libraries=/etc/prometheus/console_libraries'
       - '--web.console.templates=/etc/prometheus/consoles'
       - '--web.enable-lifecycle'
+ 
+  alert-manager:
+    ports:
+      - ${ALERTMANAGER_PORT-9093}:${ALERT_MANAGER_PORT-9093}
+    volumes:
+      - "./infrastructure/alert-manager:/config"
+      - alert-manager_data:/data
+    command: --config.file=/config/alertmanager.yml --log.level=debug
 

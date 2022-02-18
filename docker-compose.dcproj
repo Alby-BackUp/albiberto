@@ -17,6 +17,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include=".env" />
+    <Content Include="infrastructure\alert-manager\alertmanager.yml" />
     <Content Include="infrastructure\docker-compose.yaml" />
     <Content Include="infrastructure\grafana\grafana.ini" />
     <Content Include="infrastructure\grafana\provisioning\dashboards\ASP.NET Core - controller summary (Prometheus).json" />
@@ -27,6 +28,7 @@
     <Content Include="infrastructure\grafana\provisioning\dashboards\prometheus-net.json" />
     <Content Include="infrastructure\grafana\provisioning\datasources\datasources.yml" />
     <Content Include="infrastructure\loki\loki-config.yaml" />
+    <Content Include="infrastructure\prometheus\alert.rules.yml" />
     <Content Include="infrastructure\prometheus\prometheus.yml" />
   </ItemGroup>
 </Project>
