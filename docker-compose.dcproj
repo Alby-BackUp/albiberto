@@ -17,18 +17,18 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include=".env" />
-    <Content Include="infrastructure\alert-manager\alertmanager.yml" />
+    <Content Include="infrastructure\alert-manager\alert-manager-config.yml" />
     <Content Include="infrastructure\docker-compose.yaml" />
     <Content Include="infrastructure\grafana\grafana.ini" />
     <Content Include="infrastructure\grafana\provisioning\dashboards\ASP.NET Core - controller summary (Prometheus).json" />
-    <Content Include="infrastructure\grafana\provisioning\dashboards\default.yaml" />
+    <Content Include="infrastructure\grafana\provisioning\dashboards\default.yml" />
     <Content Include="infrastructure\grafana\provisioning\dashboards\IPv4 packet stream analysis (Prometheus).json" />
     <Content Include="infrastructure\grafana\provisioning\dashboards\node-exporter-full_rev26.json" />
     <Content Include="infrastructure\grafana\provisioning\dashboards\postgresql-database_rev7.json" />
     <Content Include="infrastructure\grafana\provisioning\dashboards\prometheus-net.json" />
     <Content Include="infrastructure\grafana\provisioning\datasources\datasources.yml" />
-    <Content Include="infrastructure\loki\loki-config.yaml" />
-    <Content Include="infrastructure\prometheus\alert.rules.yml" />
-    <Content Include="infrastructure\prometheus\prometheus.yml" />
+    <Content Include="infrastructure\loki\loki-config.yml" />
+    <Content Include="infrastructure\prometheus\alert-rules.yml" />
+    <Content Include="infrastructure\prometheus\prometheus-config.yml" />
   </ItemGroup>
 </Project>

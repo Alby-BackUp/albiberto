@@ -2,7 +2,7 @@ global:
   scrape_interval:     15s
   
 rule_files:
-  - ./alert.rules.yml
+  - ./alert-rules.yml
   
 alerting:
   alertmanagers:
@@ -26,3 +26,7 @@ scrape_configs:
   - job_name: albiberto
     static_configs:
     - targets: [ "albiberto:80" ]
+      
+  - job_name: alert-manager
+    static_configs:
+      - targets: [ "alert-manager:9093" ]

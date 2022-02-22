@@ -1,6 +1,6 @@
 ﻿route:
   receiver: 'mail'
-  repeat_interval: 4h
+  repeat_interval: 5m
   group_by: [ alertname ]
 
 receivers:

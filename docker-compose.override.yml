@@ -1,5 +1,19 @@
-version: '3.4'
+version: '3.9'
     
+configs:
+  loki_config:
+    file: ./infrastructure/loki/loki-config.yml
+  prometheus_config:
+    file: ./infrastructure/prometheus/prometheus-config.yml
+  prometheus_alert_rules_config:
+    file: ./infrastructure/prometheus/alert-rules.yml
+  alert-manager_config:
+    file: ./infrastructure/alert-manager/alert-manager-config.yml
+  grafana_config:
+    file: ./infrastructure/grafana/grafana.ini
+  grafana_datasources_config:
+    file: ./infrastructure/grafana/provisioning/datasources/datasources.yml
+
 services:
   albiberto:
     environment:
@@ -23,16 +37,22 @@ services:
   loki:
     ports:
       - ${LOKI_PORT-3100}:${LOKI_PORT-3100}
-    volumes:
-      - ./infrastructure/loki/loki-config.yaml:/mnt/config/loki-config.yaml
-    command: -config.file=/mnt/config/loki-config.yaml
+    configs:
+      - source: loki_config
+        target: /mnt/config/loki-config.yml
+    command: -config.file=/mnt/config/loki-config.yml
 
   grafana:
     ports:
       - ${GRAFANA_PORT-3000}:${GRAFANA_PORT-3000}
+    configs:
+      - source: grafana_config
+        target: /etc/grafana/grafana.ini
+      - source: grafana_datasources_config
+        target: /etc/grafana/provisioning/datasources/datasources.yml
     volumes:
-      - grafana_data:/var/lib/grafana         # Storage Grafana's data
-      - ./infrastructure/grafana:/etc/grafana # Initialize Grafana (gragana.ini), datasources, dashboards
+      - grafana_data:/var/lib/grafana                                                         # Storage Grafana's data
+      - ./infrastructure/grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards # Initialize Grafana dashboards
 
   node-exporter:
     ports:
@@ -51,10 +71,14 @@ services:
     ports:
       - ${PROMETHEUS_PORT-9090}:${PROMETHEUS_PORT-9090}
     volumes:
-      - ./infrastructure/prometheus/:/mnt/config/   # Initialize Prometheus (prometheus.yml)
-      - prometheus_data:/prometheus                 # Storage Prometheus's data     
+      - prometheus_data:/prometheus  
+    configs:
+      - source: prometheus_config
+        target: /mnt/config/prometheus-config.yml
+      - source: prometheus_alert_rules_config
+        target: /mnt/config/alert-rules.yml
     command:
-      - '--config.file=/mnt/config/prometheus.yml'
+      - '--config.file=/mnt/config/prometheus-config.yml'
       - '--storage.tsdb.path=/prometheus'
       - '--web.console.libraries=/etc/prometheus/console_libraries'
       - '--web.console.templates=/etc/prometheus/consoles'
@@ -64,7 +88,8 @@ services:
     ports:
       - ${ALERTMANAGER_PORT-9093}:${ALERT_MANAGER_PORT-9093}
     volumes:
-      - "./infrastructure/alert-manager:/config"
       - alert-manager_data:/data
-    command: --config.file=/config/alertmanager.yml --log.level=debug
-
+    command: --config.file=/mnt/config/alert-manager-config.yml --log.level=debug
+    configs:
+      - source: alert-manager_config
+        target: /mnt/config/alert-manager-config.yml
